@@ -1,0 +1,95 @@
+.reservations-container {
+  padding: 20px;
+}
+
+.reservation-form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.reservation-form-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #333;
+}
+
+.reservation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nights-display {
+  padding: 12px;
+  background-color: #e7f3ff;
+  border-left: 4px solid #4a90e2;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+}
+
+.reservations-table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.reservations-table thead {
+  background-color: #f8f9fa;
+}
+
+.reservations-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #dee2e6;
+  white-space: nowrap;
+}
+
+.reservations-table td {
+  padding: 15px;
+  border-bottom: 1px solid #dee2e6;
+  color: #666;
+}
+
+.reservations-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-checkedin {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-checkedout {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+@media (max-width: 768px) {
+  .reservations-table-container {
+    overflow-x: scroll;
+  }
+}

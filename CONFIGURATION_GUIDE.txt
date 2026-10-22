@@ -1,0 +1,189 @@
+================================================================================
+        CONFIGURATION GUIDE - MANDATORY SETUP STEPS
+================================================================================
+
+⚠️  ATTENTION: This project requires configuration before it can run.
+   All sensitive data has been removed for security.
+
+================================================================================
+STEP-BY-STEP CONFIGURATION
+================================================================================
+
+STEP 1: CONFIGURE DATABASE CONNECTION STRINGS
+----------------------------------------------
+
+For EACH of the following 6 services, open appsettings.json and update:
+
+1. Backend/Services/AuthService/AuthService/appsettings.json
+2. Backend/Services/GuestService/GuestService/appsettings.json
+3. Backend/Services/RoomService/RoomService/appsettings.json
+4. Backend/Services/ReservationService/ReservationService/appsettings.json
+5. Backend/Services/BillingService/BillingService/appsettings.json
+6. Backend/Services/ManagementService/ManagementService/appsettings.json
+
+FIND THIS:
+----------
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=[DbName];User Id=YOUR_USER;Password=YOUR_PASSWORD;TrustServerCertificate=True;"
+}
+
+REPLACE WITH YOUR SQL SERVER CREDENTIALS:
+-----------------------------------------
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=[DbName];User Id=sa;Password=YourActualPassword;TrustServerCertificate=True;"
+}
+
+Note: Keep the Database name as shown in each file:
+- AuthService → HotelAuthDb
+- GuestService → HotelGuestDb
+- RoomService → HotelRoomDb
+- ReservationService → HotelReservationDb
+- BillingService → HotelBillingDb
+- ManagementService → HotelManagementDb
+
+STEP 2: CONFIGURE JWT SECRET KEY
+---------------------------------
+
+For ALL 7 services (6 services + 1 API Gateway), open appsettings.json:
+
+1. Backend/Services/AuthService/AuthService/appsettings.json
+2. Backend/Services/GuestService/GuestService/appsettings.json
+3. Backend/Services/RoomService/RoomService/appsettings.json
+4. Backend/Services/ReservationService/ReservationService/appsettings.json
+5. Backend/Services/BillingService/BillingService/appsettings.json
+6. Backend/Services/ManagementService/ManagementService/appsettings.json
+7. Backend/ApiGateway/ApiGateway/appsettings.json  ← Don't forget this one!
+
+FIND THIS:
+----------
+"Jwt": {
+  "Key": "YOUR_SECRET_KEY_HERE_MINIMUM_256_BITS_32_CHARACTERS",
+  "Issuer": "HotelManagementSystem",
+  "Audience": "HotelManagementSystemUsers"
+}
+
+REPLACE WITH YOUR SECRET KEY (MUST BE SAME IN ALL FILES):
+---------------------------------------------------------
+"Jwt": {
+  "Key": "MySecureHotelKey2024!@#$%^&*()AbCdEf",
+  "Issuer": "HotelManagementSystem",
+  "Audience": "HotelManagementSystemUsers"
+}
+
+⚠️  CRITICAL: 
+- Use the EXACT SAME key in all 7 files
+- Key must be at least 32 characters long
+- Use a mix of letters, numbers, and symbols
+- Keep this key secret (don't commit to version control)
+
+STEP 3: UPDATE API GATEWAY PORT
+--------------------------------
+
+Open: Backend/ApiGateway/ApiGateway/Properties/launchSettings.json
+
+FIND THIS:
+----------
+"applicationUrl": "https://localhost:7139;http://localhost:5138"
+
+CHANGE TO:
+----------
+"applicationUrl": "https://localhost:5000"
+
+================================================================================
+VERIFICATION CHECKLIST
+================================================================================
+
+Before running the project, verify:
+
+□ Updated connection strings in all 6 service appsettings.json files
+□ Updated JWT key in all 7 appsettings.json files (6 services + API Gateway)
+□ Confirmed SAME JWT key used in all 7 files
+□ Updated API Gateway port in launchSettings.json
+□ SQL Server is installed and running
+□ .NET 8.0 SDK is installed
+□ Node.js is installed
+
+================================================================================
+QUICK TEST
+================================================================================
+
+To verify configuration is correct:
+
+1. Try to start one service:
+   cd Backend/Services/AuthService/AuthService
+   dotnet run
+
+2. If it starts without errors, configuration is likely correct
+3. If you see database errors, check connection string
+4. If you see JWT errors, check JWT key
+
+================================================================================
+EXAMPLE CONFIGURATIONS
+================================================================================
+
+EXAMPLE 1: SQL Server Express
+-----------------------------
+"DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=HotelAuthDb;User Id=sa;Password=MyPassword123;TrustServerCertificate=True;"
+
+EXAMPLE 2: LocalDB
+------------------
+"DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=HotelAuthDb;Trusted_Connection=True;TrustServerCertificate=True;"
+
+EXAMPLE 3: Docker SQL Server
+-----------------------------
+"DefaultConnection": "Server=localhost,1433;Database=HotelAuthDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+
+EXAMPLE JWT KEY:
+----------------
+"Key": "MyHotelManagementSecureKey2024!@#AbCdEfGh"
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+ERROR: "Login failed for user"
+→ Check SQL Server username and password in connection string
+
+ERROR: "Cannot open database"
+→ Run migrations first: dotnet ef database update
+
+ERROR: "IDX10503: Signature validation failed"
+→ JWT keys don't match across services. Use SAME key everywhere.
+
+ERROR: "The key must be longer than..."
+→ JWT key too short. Make it at least 32 characters.
+
+ERROR: "Port 5000 is already in use"
+→ Another process using port 5000. Kill it or change port.
+
+================================================================================
+SECURITY NOTES
+================================================================================
+
+For Production:
+- Use environment variables instead of appsettings.json
+- Use Azure Key Vault or similar for secrets
+- Use different JWT keys per environment
+- Enable SQL Server encryption
+- Use proper SSL certificates
+- Implement rate limiting
+
+For Development:
+- Current setup is fine for local development
+- Don't commit appsettings.json with real credentials
+- Use strong passwords even for local SQL Server
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+After configuration:
+
+1. Read README.txt for full setup instructions
+2. Run database migrations
+3. Start all 7 backend services
+4. Start frontend
+5. Create initial user via Swagger
+6. Login and test
+
+================================================================================
